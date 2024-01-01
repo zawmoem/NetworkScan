@@ -34,7 +34,20 @@
 		! If there is no command parameters
 		> portScan.py
 		> Enter the IP to be scanned:
-		
+
+  	- devicetypeScan
+   		+ Check the type of device for further/future connection
+     		+ Use Netmiko
+       		+ Still in developement
+	 	+ Current version included Cisco ASA, Cisco IOS, Cisco NXOS and Juniper JUNOS
+
+     		+ Parameters are still WIP
+
+	 	> Usage
+   		> devicetypeScan.py --network <network address>/netmask
+     		! If there is no command parameters
+       		> devicetypeScan.py
+	 	> Enter the network to scan : 
 		
 	
 """
