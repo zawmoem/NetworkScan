@@ -1,3 +1,13 @@
+# Device Type Scanner
+# Ref netmiko sshdetect
+# Developed by zawmoem 
+# Original code was using threading. I am using concurrent. As well as changed output to json
+#
+# Usage 
+# devicetypeScan.py --network <network address>/<netmask> <username> <password>
+# devicetypeScan.py --IP <ip address>		--will come in version 1
+# devicetypeScan.py --json 					--will come in version 1 
+
 from netmiko import SSHDetect
 
 device_list = {"cisco_asa":[],"cisco_ios":[],"cisco_nxos":[],"juniper_junos":[]}
@@ -10,17 +20,26 @@ def detectdevice (ip_addr,uname,pwd):
 
 if __name__ == "__main__":
 
-	#"""
+	"""
 	active_hosts = {"active_ip_addrs": [
 	"192.168.0.2",
 	"192.168.0.1",
 	"192.168.0.10"
 	]}
-	#"""
+	"""
+	
+	# Verification of the command line parameters 		
+	if len(sys.argv) < 1:
+		network = ipaddress.ip_network(input("Enter the network to scan : "))
+	if sys.argv[1] == "--network":
+		network = ipaddress.ip_network(sys.argv[2])
+
+	# convert network to list of IPs		
+	hosts = network.hosts()
 	
 	# Create multiple thread for concurrent ssh sessions	
 	executor = concurrent.futures.ThreadPoolExecutor(254)
-	identifyType = [executor.submit(detectdevice, str(ip),inputUserName,inputPassword) for ip in active_hosts["active_ip_addrs"]]
+	identifyType = [executor.submit(detectdevice, str(ip),sys.argv[3],sys.argv[4]) for ip in hosts]
 	
 	#To wait until all thread to be completed
 	executor.shutdown(wait=True, cancel_futures=True)

@@ -21,10 +21,10 @@ def pingsweep(cmdPing, ip_addr):
 	
 	#Run ping command with IP address
 	response = os.popen(cmdPing + " " + ip_addr)
-
+	
 	#Check ping result
 	for line in response.readlines():
-		if(line.count("TTL")):
+		if(line.count("TTL")) or (line.count("ttl")):
 			active_hosts["active_ip_addrs"].append(ip_addr)
 			exit
 	inactive_hosts["inactive_ip_addrs"].append(ip_addr)

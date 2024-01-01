@@ -1,9 +1,10 @@
 # Port Scanner
 # Ref https://www.tutorialspoint.com/python_penetration_testing/python_penetration_testing_network_scanner.htm
-# 29 Dec 2023 Updated by zawmoem 
-# 
+# Developed by zawmoem 
+# Original code was using threading. I am using concurrent. As well as changed output to json
+#
 # Usage 
-# portScan.py --IP <IPv4 network address> --all/--open/--close 
+# portScan.py --IP <IPv4 network address> 
 
 from socket import *
 import subprocess
@@ -25,8 +26,14 @@ def portscan(ip_addr,po):
 
 if __name__ == "__main__":
 
-	#Accept IP to be scanned
-	ip = input('Enter the IP to be scanned: ')
+	try:
+		if sys.argv[1] == "--IP":
+			ip = sys.argv[2]
+		else:
+			#Accept IP to be scanned
+			ip = input('Enter the IP to be scanned: ')
+	except:
+		ip = input('Enter the IP to be scanned: ')
 	
 	#Create multiple thread for concurrent ping test	
 	executor = concurrent.futures.ThreadPoolExecutor(500)
